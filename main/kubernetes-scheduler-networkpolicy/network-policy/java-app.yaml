@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: javaproject
+spec:
+  selector:
+    app: javaproject
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: http-8080
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: javaproject-deployment
+  labels:
+    app: javaproject
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: javaproject
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: javaproject
+        version: v1
+    spec:
+      containers:
+        - name: javaproject
+          image: venture007-docker.pkg.coding.net/gupao-cloud-native-base/cloud-native/javaproject:1.0.0
+          env:
+            - name: JavaProject
+              value: javaproject
+            - name: GoProject
+              value: goproject
+            - name: JavaProject2
+              value: javaproject2
+            - name: pythonProject
+              value: pythonproject
+          ports:
+            - containerPort: 8080

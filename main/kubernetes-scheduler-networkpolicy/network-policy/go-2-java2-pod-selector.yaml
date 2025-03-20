@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: go-2-java2-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: javaproject2
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: goproject2
+      ports:
+        - protocol: TCP
+          port: 8082

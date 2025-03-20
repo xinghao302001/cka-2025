@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: toleration-with-pod
+  name: toleration-with-pod
+  namespace: default
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.14.2
+  tolerations:
+    - key: accelerator
+      operator: Equal
+      value: gpu
+      effect: NoSchedule

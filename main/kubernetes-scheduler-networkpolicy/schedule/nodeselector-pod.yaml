@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-selector-pod
+  labels:
+    env: test
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.14.2
+      imagePullPolicy: IfNotPresent
+  nodeSelector:
+    env: test

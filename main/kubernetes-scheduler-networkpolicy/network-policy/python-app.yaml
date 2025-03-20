@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pythonproject
+spec:
+  selector:
+    app: pythonproject
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      name: http-5000
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pythonproject-deployment
+  labels:
+    app: pythonproject
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pythonproject
+  template:
+    metadata:
+      labels:
+        app: pythonproject
+    spec:
+      containers:
+        - name: pythonproject
+          image: venture007-docker.pkg.coding.net/gupao-cloud-native-base/cloud-native/pythonproject:1.0.0
+          env:
+            - name: JavaProject
+              value: javaproject
+            - name: GoProject
+              value: goproject
+            - name: JavaProject2
+              value: javaproject2
+            - name: pythonProject
+              value: pythonproject
+          ports:
+            - containerPort: 5000

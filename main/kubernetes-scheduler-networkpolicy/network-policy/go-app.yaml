@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: goproject
+spec:
+  selector:
+    app: goproject
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+      name: http-8081
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goproject-deployment
+  labels:
+    app: goproject
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goproject
+  template:
+    metadata:
+      labels:
+        app: goproject
+    spec:
+      containers:
+        - name: goproject
+          image: venture007-docker.pkg.coding.net/gupao-cloud-native-base/cloud-native/goproject:1.0.0
+          env:
+            - name: JavaProject
+              value: javaproject
+            - name: GoProject
+              value: goproject
+            - name: JavaProject2
+              value: javaproject2
+            - name: pythonProject
+              value: pythonproject
+          ports:
+            - containerPort: 8081
