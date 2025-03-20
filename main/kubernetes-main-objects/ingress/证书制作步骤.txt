@@ -1,0 +1,22 @@
+#1 安装openssl
+sudo apt update
+sudo apt install openssl
+#验证安装
+openssl version
+
+#2 生成私钥
+openssl genrsa -out private.key 2048
+
+#3 生成证书签名请求（CSR）：使用私钥生成证书签名请求文件（例如，my-csr.csr）：
+openssl req -new -key private.key -out my-csr.csr
+
+#4 生成自签名证书：使用私钥和 CSR 生成自签名证书（例如，my-certificate.crt）
+openssl x509 -req -in my-csr.csr -signkey private.key -out my-certificate.crt
+
+#5证书生成完成：完成上述步骤后，你将获得一个自签名证书文件（certificate.crt）和一个私钥文件（private.key）
+
+#6 创建secret
+kubectl create secret tls my-tls-secret --key=private.key --cert=my-certificate.crt -n default
+
+#将secret添加到ingress的tls中
+#部署ingress,使用curl -k https://cloudnatice.venture.com 能够正常返回数据，则说明tls配置成功

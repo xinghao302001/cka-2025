@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.cloud.tencent.com/direct-access: "true"
+  labels:
+    app: nginx
+  name: loadbalancer-service
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: 80-80-no
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: nginx
+  sessionAffinity: None
+  type: LoadBalancer
